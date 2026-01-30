@@ -31,22 +31,25 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
+def get_hashed_password(password: str):
+    return pwd_context.hash(password)
+
 fake_users_db = {
     "mostafa": {
         "username": "mostafa",
-        "hashed_password": pwd_context.hash("securepass"),
+        "hashed_password": get_hashed_password("securepass"),
         "role": "dentist",
         "disabled": False,
     },
     "assistant1": {
         "username": "assistant1",
-        "hashed_password": pwd_context.hash("assistantpass"),
+        "hashed_password": get_hashed_password("assistantpass"),
         "role": "assistant",
         "disabled": False,
     },
     "patient123": {
         "username": "patient123",
-        "hashed_password": pwd_context.hash("patientpass"),
+        "hashed_password": get_hashed_password("patientpass"),
         "role": "patient",
         "disabled": False,
     },
@@ -124,4 +127,4 @@ async def staff_area(current_user: User = Depends(role_required(["dentist", "ass
 
 @app.get("/patient-portal")
 async def patient_portal(current_user: User = Depends(role_required(["patient"]))):
-    return {"message": f"Patient portal for {current_user.username}"}
+    return {"message": f"Patient portal for {current_user.username}"} 
