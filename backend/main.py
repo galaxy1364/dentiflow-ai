@@ -31,25 +31,22 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
-def get_hashed_password(password: str):
-    return pwd_context.hash(password)
-
 fake_users_db = {
     "mostafa": {
         "username": "mostafa",
-        "hashed_password": get_hashed_password("securepass"),
+        "hashed_password": pwd_context.hash("securepass"),
         "role": "dentist",
         "disabled": False,
     },
     "assistant1": {
         "username": "assistant1",
-        "hashed_password": get_hashed_password("assistantpass"),
+        "hashed_password": pwd_context.hash("assistantpass"),
         "role": "assistant",
         "disabled": False,
     },
     "patient123": {
         "username": "patient123",
-        "hashed_password": get_hashed_password("patientpass"),
+        "hashed_password": pwd_context.hash("patientpass"),
         "role": "patient",
         "disabled": False,
     },
@@ -128,5 +125,3 @@ async def staff_area(current_user: User = Depends(role_required(["dentist", "ass
 @app.get("/patient-portal")
 async def patient_portal(current_user: User = Depends(role_required(["patient"]))):
     return {"message": f"Patient portal for {current_user.username}"}
-from patient import router as patient_router
-app.include_router(patient_router)
