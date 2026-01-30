@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
-SECRET_KEY = "your-very-strong-secret-key-change-this-2026"
+SECRET_KEY = "your-very-strong-secret-key-change-this-2026"  # حتماً به چیزی امن تغییر بده
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -31,6 +31,7 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
+# لیست کاربران موقت - hash را در زمان اجرا می‌سازیم تا خطا نده
 fake_users_db = {
     "mostafa": {
         "username": "mostafa",
