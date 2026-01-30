@@ -127,4 +127,6 @@ async def staff_area(current_user: User = Depends(role_required(["dentist", "ass
 
 @app.get("/patient-portal")
 async def patient_portal(current_user: User = Depends(role_required(["patient"]))):
-    return {"message": f"Patient portal for {current_user.username}"} 
+    return {"message": f"Patient portal for {current_user.username}"}
+from patient import router as patient_router
+app.include_router(patient_router)
